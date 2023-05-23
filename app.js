@@ -205,7 +205,7 @@ app.get('/notice/update/:noticeid', checkAuthenticated, (req, res) =>{
             if (results && results.length > 0) {
                 const notice = results[0];
                 console.log("성공");
-                res.status(200).render('updatenotice.ejs', { notice }); //  수정 페이지 렌더링
+                res.status(200).render('update.ejs', { notice }); //  수정 페이지 렌더링
             } else {
                 res.status(404).send('해당하는 notice 찾을 수 없습니다.');
             }
@@ -226,7 +226,7 @@ app.get('/notice/delete/:noticeid', checkAuthenticated, (req, res) =>{
             if (results && results.length > 0) {
                 const notice = results[0];
                 console.log("성공");
-                res.status(200).render('deletenotice.ejs', { notice }); //  수정 페이지 렌더링
+                res.status(200).render('delete.ejs', { notice }); //  수정 페이지 렌더링
             } else {
                 res.status(404).send('해당하는 notice 찾을 수 없습니다.');
             }
@@ -848,7 +848,7 @@ app.post('/community/deleteplan/:planid',  (req, res) => {
     });
 });
 app.post("/community/createpost", (req, res) => {
-    const contents = req.body;
+    const contents = req.body.contents;
     const writer = req.user.userid;
 
     if(!contents){
@@ -869,11 +869,12 @@ app.post("/community/createpost", (req, res) => {
         }
     });
 });
+
 // 게시물 수정 처리
 app.post('/community/updatepost/:postid',  (req, res) => {
     const postId = req.params.postid; // 게시물의 고유 식별자(ID)
     const writer = req.user.userid; // 현재 로그인한 사용자의 ID
-    const contents  = req.body; // 수정하고자 하는 내용
+    const contents  = req.body.contents; // 수정하고자 하는 내용
 
     if(!contents){
         return res.status(400).send("모든 필드를 입력해주세요.");
